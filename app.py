@@ -9,7 +9,7 @@ app = FastAPI()
 
 # Charger directement le modèle sauvegardé avec joblib.dump(rf_model, ...)
  rf_model = joblib.load("modele_food_insecurity.pkl")   # ⚠️ doit être entraîné avec 5 variables
- xgb_model = joblib.load("modele_xgboost.pkl.pkl")  
+ xgb_model = joblib.load("modele_food_insecurity_xgb1.pkl")  
 
 
 # Variables utilisées pour la prédiction individuelle
@@ -74,6 +74,7 @@ def predict(data: InputData):
             "error": "Une erreur est survenue",
             "details": str(e)
         }, status_code=500)
+
 
 
 
