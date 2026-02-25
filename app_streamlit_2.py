@@ -9,8 +9,8 @@ import joblib
 ###########################################################
 @st.cache_resource
 def load_models():
-    rf_model = joblib.load("modele_food_insecurity_D1.pkl")   # ⚠️ doit être entraîné avec 5 variables
-    xgb_model = joblib.load("modele_xgboost.pkl")             # ⚠️ doit être entraîné avec 5 variables
+    rf_model = joblib.load("modele_food_insecurity.pkl")   # ⚠️ doit être entraîné avec 5 variables
+    xgb_model = joblib.load("modele_food_insecurity_xgb1.pkl")             # ⚠️ doit être entraîné avec 5 variables
     return {"RandomForest": rf_model, "XGBoost": xgb_model}
 
 models = load_models()
@@ -169,3 +169,4 @@ if st.button("🔍 Lancer la prédiction"):
 
     except Exception as e:
         st.error(f"❌ Erreur lors de la prédiction : {e}")
+
