@@ -14,20 +14,20 @@ app = FastAPI()
 
 # Variables utilisées pour la prédiction individuelle
 selected_features = [
-     "q606_1_avoir_faim_mais_ne_pas_manger",
-    "q605_1_ne_plus_avoir_de_nourriture_pas_suffisamment_d_argent",
-    "q604_manger_moins_que_ce_que_vous_auriez_du",
-    "q603_sauter_un_repas",
-    "q601_ne_pas_manger_nourriture_saine_nutritive"
+      "q601_ne_pas_manger_nourriture_saine_nutritive",
+      "q603_sauter_un_repas",
+      "q604_manger_moins_que_ce_que_vous_auriez_du",
+      "q605_1_ne_plus_avoir_de_nourriture_pas_suffisamment_d_argent",
+      "q606_1_avoir_faim_mais_ne_pas_manger"
 ]
 
 # Schéma d'entrée pour prédiction individuelle
 class InputData(BaseModel):
-    q606_1_avoir_faim_mais_ne_pas_manger: int
-    q605_1_ne_plus_avoir_de_nourriture_pas_suffisamment_d_argent: int
-    q604_manger_moins_que_ce_que_vous_auriez_du: int
-    q603_sauter_un_repas: int
     q601_ne_pas_manger_nourriture_saine_nutritive: int
+    q603_sauter_un_repas: int
+    q604_manger_moins_que_ce_que_vous_auriez_du: int
+    q605_1_ne_plus_avoir_de_nourriture_pas_suffisamment_d_argent: int
+    q606_1_avoir_faim_mais_ne_pas_manger: int
     modele: str = "rf_model"
 
 # Endpoint de santé
@@ -74,6 +74,7 @@ def predict(data: InputData):
             "error": "Une erreur est survenue",
             "details": str(e)
         }, status_code=500)
+
 
 
 
