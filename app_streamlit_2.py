@@ -20,14 +20,14 @@ models = load_models()
 ###########################################################
 @st.cache(persist=True)
 def load_data():
-    df = pd.read_csv("data_encoded_3.csv")
+    df = pd.read_csv("data_encoded_1.csv")
     return df
 
 df = load_data()
 df_sample = df.sample(100)
 
 if st.sidebar.checkbox("Afficher les données brutes", False):
-    st.subheader("Jeu de données 'data_encoded_3.csv' : Echantillon de 100 observateurs")
+    st.subheader("Jeu de données 'data_encoded_1.csv' : Echantillon de 100 observateurs")
     st.write(df_sample)
 
 st.title("📊 Analyse exploratoire du dataset")
@@ -169,4 +169,5 @@ if st.button("🔍 Lancer la prédiction"):
 
     except Exception as e:
         st.error(f"❌ Erreur lors de la prédiction : {e}")
+
 
