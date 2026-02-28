@@ -9,8 +9,9 @@ app = FastAPI()
 
 # Charger directement le modèle sauvegardé avec joblib.dump(rf_model, ...)
  rf_model = joblib.load("modele_food_insecurity.pkl")   # ⚠️ doit être entraîné avec 5 variables
- xgb_model = joblib.load("modele_food_insecurity_xgb1.pkl")  
-
+ xgb_model = joblib.load("modele_food_insecurity_xgb1.pkl") 
+# Colonnes attendues par le modèle 
+selected_features = rf_model.feature_names_in_.tolist()
 
 # Variables utilisées pour la prédiction individuelle
 selected_features = [
@@ -41,10 +42,13 @@ def predict(data: InputData):
     try:
         # Transformer les données en DataFrame
         input_df = pd.DataFrame([data.dict()])
-        input_filtered = input_df[selected_features]
+
+        # ✅ Réordonner automatiquement selon le modèle
+        input_filtered = input_df[rf_model.feature_names_in_]
 
         # Prédiction
         proba = rf_model.predict_proba(input_filtered)[0]
+        score = float(proba[1])
 
         seuil_severe = 0.4
         prediction_binaire = int(proba[1] > seuil_severe)
@@ -57,12 +61,11 @@ def predict(data: InputData):
             niveau = "sévère" if prediction_binaire == 1 else "modérée"
             profil = "critique" if prediction_binaire == 1 else "intermédiaire"
 
-        # Réponse JSON
         return JSONResponse(content={
             "prediction": prediction_binaire,
             "niveau": niveau,
             "profil": profil,
-            "score": round(float(proba[1]), 4),
+            "score": round(score, 4),
             "probabilités": {
                 "classe_0": round(float(proba[0]), 4),
                 "classe_1": round(float(proba[1]), 4)
@@ -74,6 +77,8 @@ def predict(data: InputData):
             "error": "Une erreur est survenue",
             "details": str(e)
         }, status_code=500)
+
+
 
 
 
